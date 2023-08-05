@@ -10,7 +10,7 @@
 4. Copy .env.example to .env and fill .env value with your ecosystem
 5. Run npm run start:dev to start
 
-## Avaialable API
+## Available API
 
 | Method | Path          | Body Parameter              |
 | ------ | ------------- | --------------------------- |
