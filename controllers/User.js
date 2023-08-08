@@ -1,19 +1,17 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
-const db = require("../models");
-
-const User = db.users;
+const { Users } = require("../models");
 
 const signup = async (req, res) => {
   try {
     const { userName, email, password } = req.body;
     const data = {
-      userName,
+      username: userName,
       email,
       password: await bcrypt.hash(password, 10),
     };
-    const user = await User.create(data);
+    const user = await Users.create(data);
 
     if (user) {
       return res.status(201).send("User created, continue to login");
@@ -21,7 +19,7 @@ const signup = async (req, res) => {
       return res.status(409).send("Details are not correct");
     }
   } catch (error) {
-    return res.status(500).send("Server error");
+    return res.status(500).send("Server error: ", error);
   }
 };
 
@@ -29,7 +27,7 @@ const login = async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    const user = await User.findOne({
+    const user = await Users.findOne({
       where: {
         email: email,
       },
@@ -53,7 +51,7 @@ const login = async (req, res) => {
       return res.status(401).send("Authentication failed");
     }
   } catch (error) {
-    return res.status(500).send("Server error");
+    return res.status(500).send("Server error: ", error);
   }
 };
 
